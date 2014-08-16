@@ -52,11 +52,32 @@ public class RenderWorldLastEventHandler {
 
         tessellator.startDrawingQuads();
         for (TipInfo tip : tipList) {
-            
-            tessellator.addVertexWithUV(tip.x    , tip.y + 1.01, tip.z    , 0.0f, 0.0f);
-            tessellator.addVertexWithUV(tip.x    , tip.y + 1.01, tip.z + 1, 0.0f, 1.0f);
-            tessellator.addVertexWithUV(tip.x + 1, tip.y + 1.01, tip.z + 1, 1.0f, 1.0f);
-            tessellator.addVertexWithUV(tip.x + 1, tip.y + 1.01, tip.z    , 1.0f, 0.0f);
+            x = tip.x + 0.5d; y = tip.y + 0.5d; z = tip.z + 0.5d;
+            if (tip.face == 2) {
+                tessellator.addVertexWithUV(x + 0.5d, y + 0.5d, z - 0.51d, 0.0f, 0.0f);
+                tessellator.addVertexWithUV(x + 0.5d, y - 0.5d, z - 0.51d, 0.0f, 1.0f);
+                tessellator.addVertexWithUV(x - 0.5d, y - 0.5d, z - 0.51d, 1.0f, 1.0f);
+                tessellator.addVertexWithUV(x - 0.5d, y + 0.5d, z - 0.51d, 1.0f, 0.0f);
+            }
+            else if (tip.face == 3) {
+                tessellator.addVertexWithUV(x - 0.5d, y + 0.5d, z + 0.51d, 0.0f, 0.0f);
+                tessellator.addVertexWithUV(x - 0.5d, y - 0.5d, z + 0.51d, 0.0f, 1.0f);
+                tessellator.addVertexWithUV(x + 0.5d, y - 0.5d, z + 0.51d, 1.0f, 1.0f);
+                tessellator.addVertexWithUV(x + 0.5d, y + 0.5d, z + 0.51d, 1.0f, 0.0f);
+            }
+            else if (tip.face == 4) {
+                tessellator.addVertexWithUV(x - 0.51d, y + 0.5d, z - 0.5d, 0.0f, 0.0f);
+                tessellator.addVertexWithUV(x - 0.51d, y - 0.5d, z - 0.5d, 0.0f, 1.0f);
+                tessellator.addVertexWithUV(x - 0.51d, y - 0.5d, z + 0.5d, 1.0f, 1.0f);
+                tessellator.addVertexWithUV(x - 0.51d, y + 0.5d, z + 0.5d, 1.0f, 0.0f);
+            }
+            else if (tip.face == 5) {
+                tessellator.addVertexWithUV(x + 0.51d, y + 0.5d, z + 0.5d, 0.0f, 0.0f);
+                tessellator.addVertexWithUV(x + 0.51d, y - 0.5d, z + 0.5d, 0.0f, 1.0f);
+                tessellator.addVertexWithUV(x + 0.51d, y - 0.5d, z - 0.5d, 1.0f, 1.0f);
+                tessellator.addVertexWithUV(x + 0.51d, y + 0.5d, z - 0.5d, 1.0f, 0.0f);
+            }
+
             
         }
         tessellator.draw();
