@@ -1,7 +1,9 @@
 package com.ImmortalObjectTip.clinet;
 
+import java.nio.DoubleBuffer;
 import java.util.List;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.ImmortalObjectTip.ImmortalObjectTip;
@@ -12,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -25,27 +28,30 @@ public class RenderWorldLastEventHandler {
     
     private static List<TipInfo> tipList = Lists.newArrayList();
     
+    private static float tickTime = 1f / 20f; //1 tick 經過的秒數
+    
+    private static Vec3 a = Vec3.createVectorHelper(0d, 0d, 1d);
+    
     public static void addTip(TipInfo info) {
         tipList.add(info);
         System.out.println(info);
     }
     
-    float time = 0f;
-    
     //Knowledge: http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/1433242-solved-forge-rendering-lines-in-the-world
     @SubscribeEvent
     public void RenderWorldLast(RenderWorldLastEvent event) {        
-        time += event.partialTicks * 0.025f;
 
         mc.renderEngine.bindTexture(texture);
         
         EntityClientPlayerMP player = mc.thePlayer;
-        double x = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.partialTicks;
-        double y = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.partialTicks;
-        double z = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.partialTicks;
+        double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.partialTicks;
+        double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.partialTicks;
+        double playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.partialTicks;
         
         GL11.glPushMatrix();
-        GL11.glTranslated(-x, -y, -z);
+        GL11.glTranslated(-playerX, -playerY, -playerZ);
+        
+        double x,y,z;
         
         Tessellator tessellator = Tessellator.instance;
         tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
@@ -53,6 +59,7 @@ public class RenderWorldLastEventHandler {
         tessellator.startDrawingQuads();
         for (TipInfo tip : tipList) {
             x = tip.x + 0.5d; y = tip.y + 0.5d; z = tip.z + 0.5d;
+            //if ((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) > 25.0d) continue;
             if (tip.face == 2) {
                 tessellator.addVertexWithUV(x + 0.5d, y + 0.5d, z - 0.51d, 0.0f, 0.0f);
                 tessellator.addVertexWithUV(x + 0.5d, y - 0.5d, z - 0.51d, 0.0f, 1.0f);
@@ -77,7 +84,59 @@ public class RenderWorldLastEventHandler {
                 tessellator.addVertexWithUV(x + 0.51d, y - 0.5d, z - 0.5d, 1.0f, 1.0f);
                 tessellator.addVertexWithUV(x + 0.51d, y + 0.5d, z - 0.5d, 1.0f, 0.0f);
             }
-
+            else if (tip.face == 0 || tip.face == 1) {
+                tessellator.draw();
+                
+                GL11.glPushMatrix();
+                GL11.glTranslated(x, y, z);
+                //GL11.glRotated(40d, 0d, 1d, 0d);
+                
+//                Vec3 look = Vec3.createVectorHelper(playerX - x, playerY - y, playerZ - z);
+//                
+//                DoubleBuffer m = BufferUtils.createDoubleBuffer(16);
+//                
+//                m.put( 0, 1d); m.put( 1, 0d); m.put( 2, look.xCoord); m.put( 3, 0d); 
+//                m.put( 4, 0d); m.put( 5, 1d); m.put( 6, look.yCoord); m.put( 7, 0d); 
+//                m.put( 8, 0d); m.put( 9, 0d); m.put(10, look.zCoord); m.put(11, 0d); 
+//                m.put(12, 0d); m.put(13, 0d); m.put(14, 0d);          m.put(15, 1d); 
+//                
+//                GL11.glMultMatrix(m);
+                
+                DoubleBuffer m = BufferUtils.createDoubleBuffer(16);
+                
+                m.put(5, 1d); m.put(15, 1d);
+                
+                Vec3 b = Vec3.createVectorHelper(playerX - x, 0d, playerZ - z).normalize();
+                
+                double c_len = a.subtract(b).lengthVector();
+                
+                double cos = (c_len * c_len - 2) / -2d;
+                double sin = a.crossProduct(b).lengthVector();
+                
+                if (playerX < x) {
+                    m.put(0, cos); m.put(2, sin);
+                    m.put(8, -sin); m.put(10, cos);
+                }
+                else {
+                    m.put(0, cos); m.put(2, -sin);
+                    m.put(8, sin); m.put(10, cos);
+                }
+                
+                GL11.glMultMatrix(m);
+                
+                tessellator.startDrawingQuads();
+                if (tip.face == 1) {
+                    tessellator.addVertexWithUV(-0.5d, 1d + 0.5d, 0.0d, 0.0d, 0.0d);
+                    tessellator.addVertexWithUV(-0.5d, 1d - 0.5d, 0.0d, 0.0d, 1.0d);
+                    tessellator.addVertexWithUV(+0.5d, 1d - 0.5d, 0.0d, 1.0d, 1.0d);
+                    tessellator.addVertexWithUV(+0.5d, 1d + 0.5d, 0.0d, 1.0d, 0.0d);
+                }
+                tessellator.draw();
+                
+                GL11.glPopMatrix();
+                
+                tessellator.startDrawingQuads();
+            }
             
         }
         tessellator.draw();
