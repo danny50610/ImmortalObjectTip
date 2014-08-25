@@ -10,7 +10,6 @@ import org.lwjgl.opengl.GL11;
 import com.ImmortalObjectTip.ImmortalObjectTip;
 import com.ImmortalObjectTip.TipInfo;
 import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.Tessellator;
@@ -24,7 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderWorldLastEventHandler {
-    private Minecraft mc = Minecraft.getMinecraft();
+    private static Minecraft mc = Minecraft.getMinecraft();
     
     private static final ResourceLocation texture = new ResourceLocation(ImmortalObjectTip.MOD_ID, "textures/immortal_object_tip.png");
     
@@ -46,10 +45,16 @@ public class RenderWorldLastEventHandler {
     
     public static void addTip(TipInfo info) {
         if (info.face >= 2) {
-            if(!tipList.contains(info)) tipList.add(info);
+            if(!tipList.contains(info)) {
+                tipList.add(info);
+                mc.theWorld.playSound(info.x + 0.5d, info.y + 0.5d, info.z + 0.5d, "note.harp", 3.0f, 1.414f, false);
+            }
         }
         else {
-            if(!billboardTipList.contains(info)) billboardTipList.add(info);
+            if(!billboardTipList.contains(info)) {
+                billboardTipList.add(info);
+                mc.theWorld.playSound(info.x + 0.5d, info.y + 0.5d, info.z + 0.5d, "note.harp", 3.0f, 1.414f, false);
+            }
         }
     }
     
@@ -76,11 +81,14 @@ public class RenderWorldLastEventHandler {
         tessellator.startDrawingQuads();
         for (Iterator<TipInfo> it = tipList.iterator(); it.hasNext();) {
             tip = it.next();
+            x = tip.x + 0.5d; y = tip.y + 0.5d; z = tip.z + 0.5d;
             
             tip.updata(event.partialTicks);
-            if (tip.isDisappear()) it.remove();
+            if (tip.isDisappear()) {
+                it.remove();
+                mc.theWorld.playSound(x, y, z, "note.harp", 3.0f, 1.414f, false);
+            }
             
-            x = tip.x + 0.5d; y = tip.y + 0.5d; z = tip.z + 0.5d;
             if ((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) > 25.0d) continue;
             
             double Reduce_Height = getHalfHeight(tip.getHeightRatio());
@@ -116,11 +124,14 @@ public class RenderWorldLastEventHandler {
 
         for (Iterator<TipInfo> it = billboardTipList.iterator(); it.hasNext();) {
             tip = it.next();
+            x = tip.x + 0.5d; y = tip.y + 0.5d; z = tip.z + 0.5d;
             
             tip.updata(event.partialTicks);
-            if (tip.isDisappear()) it.remove();
+            if (tip.isDisappear()) {
+                it.remove();
+                mc.theWorld.playSound(x, y, z, "note.harp", 3.0f, 1.414f, false);
+            }
             
-            x = tip.x + 0.5d; y = tip.y + 0.5d; z = tip.z + 0.5d;
             if ((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) > 25.0d) continue;
             
             GL11.glPushMatrix();
