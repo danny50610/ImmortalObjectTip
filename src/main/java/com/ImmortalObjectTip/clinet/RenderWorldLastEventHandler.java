@@ -6,16 +6,18 @@ import java.util.List;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-
 import com.ImmortalObjectTip.ImmortalObjectTip;
 import com.ImmortalObjectTip.TipInfo;
 import com.google.common.collect.Lists;
+
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -65,6 +67,7 @@ public class RenderWorldLastEventHandler {
         mc.renderEngine.bindTexture(texture);
         
         EntityClientPlayerMP player = mc.thePlayer;
+        IBlockAccess blockAccess = player.worldObj; 
         double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.partialTicks;
         double playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.partialTicks;
         double playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.partialTicks;
@@ -74,11 +77,14 @@ public class RenderWorldLastEventHandler {
         
         TipInfo tip;
         double x,y,z;
+        int light;
+        Block block;
         
         Tessellator tessellator = Tessellator.instance;
         tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 
         tessellator.startDrawingQuads();
+        //tessellator.setNormal(0, 1, 0);
         for (Iterator<TipInfo> it = tipList.iterator(); it.hasNext();) {
             tip = it.next();
             x = tip.x + 0.5d; y = tip.y + 0.5d; z = tip.z + 0.5d;
@@ -93,6 +99,13 @@ public class RenderWorldLastEventHandler {
             if ((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) > 25.0d) continue;
             
             double Reduce_Height = getHalfHeight(tip.getHeightRatio());
+            
+            block = blockAccess.getBlock(tip.x, tip.y, tip.z);
+            light = block.getMixedBrightnessForBlock(blockAccess, tip.x, tip.y, tip.z);
+            
+            tessellator.setBrightness(light);
+            
+            System.out.println(light);
             
             if (tip.face == 2) {
                 tessellator.addVertexWithUV(x + 0.5d, y + Reduce_Height, z - 0.51d, 0.0f, 0.0f);
@@ -133,12 +146,35 @@ public class RenderWorldLastEventHandler {
                 mc.theWorld.playSound(x, y, z, "note.harp", 3.0f, 1.414f, false);
             }
             
+            if (tip.dim != player.dimension) continue;
             if ((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) > 25.0d) continue;
-            
+                        
             GL11.glPushMatrix();
+            
             tessellator.startDrawingQuads();
             
+            
             double halfHeight = getHalfHeight(tip.getHeightRatio());
+            
+            block = blockAccess.getBlock(tip.x, tip.y, tip.z);
+//            light = block.getMixedBrightnessForBlock(blockAccess, tip.x, tip.y + 1, tip.z);
+//            
+//            tessellator.setBrightness(light);
+//            //tessellator.setColorOpaque_F(0.5F, 0.5F, 0.5F);
+            
+            //System.out.println(light);
+            
+            //float f = block.getLightOpacity(blockAccess, tip.x, tip.y, tip.z);
+            light = block.getMixedBrightnessForBlock(blockAccess, tip.x, tip.y + 1, tip.z);
+            int l1 = light >> 20;
+            int l2 = (light & 0xF0) >> 4;
+            int l3 = (l1 > l2 ? l1 : l2) * 17;
+            tessellator.setColorOpaque(l3, l3, l3);
+            System.out.println(l3);
+            //float l3 = (l1 * 16 + l2 * 16) / 512.0f;
+            //tessellator.setColorOpaque_F(l3, l3, l3);
+            //OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)l1, (float)l2); 
+            //tessellator.setBrightness(light);
             
             GL11.glTranslated(x, y + tip.face, z);
 
@@ -160,6 +196,7 @@ public class RenderWorldLastEventHandler {
                 tessellator.addVertexWithUV(+0.5d, -0.51d,  halfHeight, 1.0d, 0.0d);
             }
             tessellator.draw();
+            
             GL11.glPopMatrix();
         }
         GL11.glPopMatrix();
