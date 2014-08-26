@@ -89,6 +89,7 @@ public class RenderWorldLastEventHandler {
                 mc.theWorld.playSound(x, y, z, "note.harp", 3.0f, 1.414f, false);
             }
             
+            if (tip.dim != player.dimension) continue;
             if ((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) > 25.0d) continue;
             
             double Reduce_Height = getHalfHeight(tip.getHeightRatio());
