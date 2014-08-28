@@ -2,12 +2,12 @@
 {
   "modid": "immortalobjecttip",
   "name": "Immortal Object Tip",
-  "description": "Show "Immortal Object" Tip",
+  "description": "Show \"Immortal Object\" Tip",
   "version": "$version",
   "mcversion": "$mcversion",
-  "credits": "Created by Danny50610",
+  "credits": "Created by danny50610",
   "authorList": [
-    "Danny50610"
+    "danny50610"
   ],
   "parent":"",
   "dependencies": [
