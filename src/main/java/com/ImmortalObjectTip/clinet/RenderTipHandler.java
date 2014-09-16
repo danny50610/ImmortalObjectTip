@@ -90,28 +90,28 @@ public class RenderTipHandler {
             double Reduce_Height = getHalfHeight(tip.getHeightRatio());
             
             if (tip.face == 2) {
-                setColorOpaque(tip, ForgeDirection.NORTH);
+                setColorOpaque(tip, ForgeDirection.NORTH, getAlpha(tip));
                 tessellator.addVertexWithUV(x + 0.5d, y + Reduce_Height, z - 0.51d, 0.0f, 0.0f);
                 tessellator.addVertexWithUV(x + 0.5d, y - Reduce_Height, z - 0.51d, 0.0f, 1.0f);
                 tessellator.addVertexWithUV(x - 0.5d, y - Reduce_Height, z - 0.51d, 1.0f, 1.0f);
                 tessellator.addVertexWithUV(x - 0.5d, y + Reduce_Height, z - 0.51d, 1.0f, 0.0f);
             }
             else if (tip.face == 3) {
-                setColorOpaque(tip, ForgeDirection.SOUTH);
+                setColorOpaque(tip, ForgeDirection.SOUTH, getAlpha(tip));
                 tessellator.addVertexWithUV(x - 0.5d, y + Reduce_Height, z + 0.51d, 0.0f, 0.0f);
                 tessellator.addVertexWithUV(x - 0.5d, y - Reduce_Height, z + 0.51d, 0.0f, 1.0f);
                 tessellator.addVertexWithUV(x + 0.5d, y - Reduce_Height, z + 0.51d, 1.0f, 1.0f);
                 tessellator.addVertexWithUV(x + 0.5d, y + Reduce_Height, z + 0.51d, 1.0f, 0.0f);
             }
             else if (tip.face == 4) {
-                setColorOpaque(tip, ForgeDirection.WEST);
+                setColorOpaque(tip, ForgeDirection.WEST, getAlpha(tip));
                 tessellator.addVertexWithUV(x - 0.51d, y + Reduce_Height, z - 0.5d, 0.0f, 0.0f);
                 tessellator.addVertexWithUV(x - 0.51d, y - Reduce_Height, z - 0.5d, 0.0f, 1.0f);
                 tessellator.addVertexWithUV(x - 0.51d, y - Reduce_Height, z + 0.5d, 1.0f, 1.0f);
                 tessellator.addVertexWithUV(x - 0.51d, y + Reduce_Height, z + 0.5d, 1.0f, 0.0f);
             }
             else if (tip.face == 5) {
-                setColorOpaque(tip, ForgeDirection.EAST);
+                setColorOpaque(tip, ForgeDirection.EAST, getAlpha(tip));
                 tessellator.addVertexWithUV(x + 0.51d, y + Reduce_Height, z + 0.5d, 0.0f, 0.0f);
                 tessellator.addVertexWithUV(x + 0.51d, y - Reduce_Height, z + 0.5d, 0.0f, 1.0f);
                 tessellator.addVertexWithUV(x + 0.51d, y - Reduce_Height, z - 0.5d, 1.0f, 1.0f);
@@ -119,8 +119,9 @@ public class RenderTipHandler {
             }
             
         }
+        GL11.glEnable(GL11.GL_BLEND);
         tessellator.draw();
-        
+        GL11.glDisable(GL11.GL_BLEND);
 
         for (Iterator<TipInfo> it = billboardTipList.iterator(); it.hasNext();) {
             tip = it.next();
@@ -149,21 +150,22 @@ public class RenderTipHandler {
             if (tip.face == 1) {
                 updataBillboardPitchMatrix(x, y + 1, z);
                 GL11.glMultMatrix(billboardPitchMatrix);
-                setColorOpaque(tip, ForgeDirection.UP);
+                setColorOpaque(tip, ForgeDirection.UP, getAlpha(tip));
                 tessellator.addVertexWithUV(-0.5d, +halfHeight, 0.0d, 0.0d, 0.0d);
                 tessellator.addVertexWithUV(-0.5d, -halfHeight, 0.0d, 0.0d, 1.0d);
                 tessellator.addVertexWithUV(+0.5d, -halfHeight, 0.0d, 1.0d, 1.0d);
                 tessellator.addVertexWithUV(+0.5d, +halfHeight, 0.0d, 1.0d, 0.0d);
             }
             else if (tip.face == 0) {
-                setColorOpaque(tip, ForgeDirection.DOWN);
+                setColorOpaque(tip, ForgeDirection.DOWN, getAlpha(tip));
                 tessellator.addVertexWithUV(-0.5d, -0.51d,  halfHeight, 0.0d, 0.0d);
                 tessellator.addVertexWithUV(-0.5d, -0.51d, -halfHeight, 0.0d, 1.0d);
                 tessellator.addVertexWithUV(+0.5d, -0.51d, -halfHeight, 1.0d, 1.0d);
                 tessellator.addVertexWithUV(+0.5d, -0.51d,  halfHeight, 1.0d, 0.0d);
             }
+            GL11.glEnable(GL11.GL_BLEND);
             tessellator.draw();
-            
+            GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
         }
         GL11.glPopMatrix();
@@ -209,20 +211,30 @@ public class RenderTipHandler {
                 0.5f;
     }
     
+    public int getAlpha(TipInfo tip) {
+        return getAlpha(tip.getHeightRatio());
+    }
+
+    public int getAlpha(float ratio) {
+        return (int) (ratio < Interval ? MathHelper.sin(ratio * ((float)Math.PI / 2 / Interval)) * 224 : // 0 ~ Interval
+            ratio > 1 - Interval ? MathHelper.sin((1 - ratio) * ((float)Math.PI / 2 / Interval)) * 224: // Interval ~ 1
+                224);
+    }
+    
     public static void playerSound(TipInfo tip) {
         mc.theWorld.playSound(tip.x + 0.5d, tip.y + 0.5d, tip.z + 0.5d, "note.harp", 3.0f, 1.414f, false);
     }
     /** 調整明暗
      *  (雖然名稱像是調顏色，但執行卻像是調明暗)
      */
-    public void setColorOpaque(TipInfo tip, ForgeDirection dir) {
+    public void setColorOpaque(TipInfo tip, ForgeDirection dir, int alpha) {
         IBlockAccess blockAccess = mc.thePlayer.worldObj;
         Block block = blockAccess.getBlock(tip.x, tip.y, tip.z);
         int light = block.getMixedBrightnessForBlock(blockAccess, tip.x + dir.offsetX, tip.y + dir.offsetY, tip.z + dir.offsetZ);
         int l1 = light >> 20;
         int l2 = (light >> 4) & 0xF;
         int l3 = (l1 > l2 ? l1 : l2) * 17;
-        Tessellator.instance.setColorOpaque(l3, l3, l3);
+        Tessellator.instance.setColorRGBA(l3, l3, l3, alpha);
     }
     
 }
