@@ -12,8 +12,10 @@ public class PlayerInteractEventHandler {
     @SubscribeEvent
     public void PlayerInteract(PlayerInteractEvent event) {
         if (event.action == Action.LEFT_CLICK_BLOCK && event.world.getBlock(event.x, event.y, event.z) == Blocks.bedrock && !event.entityPlayer.capabilities.isCreativeMode) {
-            PacketCreateTip packet = new PacketCreateTip(event);
-            ImmortalObjectTip.instance.network.sendToDimension(packet, packet.dim);
+            int dimId = event.world.provider.dimensionId;
+
+            PacketCreateTip packet = new PacketCreateTip(event.x, event.y, event.z, event.face, dimId);
+            ImmortalObjectTip.instance.network.sendToDimension(packet, dimId);
             //DebugMessage(event);
         }
     }

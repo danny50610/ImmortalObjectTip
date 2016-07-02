@@ -9,9 +9,9 @@ public class TipInfo {
     
     private static final int MaxTime = 5000; 
     
-    public final int x;
-    public final int y;
-    public final int z;
+    public final float x;
+    public final float y;
+    public final float z;
     public final int face;
     public final int dim;
     private int time = 0;
