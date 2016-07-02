@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_api.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_api.iml" group="ImmortalObjectTip" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_main.iml" group="ImmortalObjectTip" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_test.iml" group="ImmortalObjectTip" />
+    </modules>
+  </component>
+</project>
