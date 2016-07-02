@@ -14,13 +14,12 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid = ImmortalObjectTip.MOD_ID, name = ImmortalObjectTip.MOD_NAME)
+@Mod(modid = ModInformation.MOD_ID, name = ModInformation.MOD_NAME)
 public class ImmortalObjectTip {
-    public static final String MOD_ID = "immortalobjecttip";
-    public static final String MOD_NAME = "Immortal Object Tip";
-    
+
     @Instance
     public static ImmortalObjectTip instance;
+
     @SidedProxy(serverSide = "com.ImmortalObjectTip.CommonProxy", clientSide = "com.ImmortalObjectTip.ClientProxy")
     public static CommonProxy proxy;
     
@@ -31,7 +30,7 @@ public class ImmortalObjectTip {
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHandler());
         proxy.registerEvent();
         
-        wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
+        wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ModInformation.MOD_ID);
         wrapper.registerMessage(PacketCreateTipHandler.class, PacketCreateTip.class, 1, Side.CLIENT);
     }
     

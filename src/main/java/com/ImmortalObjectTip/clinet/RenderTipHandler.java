@@ -4,6 +4,7 @@ import java.nio.DoubleBuffer;
 import java.util.Iterator;
 import java.util.List;
 
+import com.ImmortalObjectTip.ModInformation;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -29,7 +30,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderTipHandler {
     private static Minecraft mc = Minecraft.getMinecraft();
     
-    private static final ResourceLocation TipTexture = new ResourceLocation(ImmortalObjectTip.MOD_ID, "textures/immortal_object_tip.png");
+    private static final ResourceLocation TipTexture = new ResourceLocation(ModInformation.MOD_ID, "textures/immortal_object_tip.png");
     /** 儲存側邊的Tip*/
     private static List<TipInfo> tipList = Lists.newLinkedList();
     /** 儲存上方和底部的Tip*/
