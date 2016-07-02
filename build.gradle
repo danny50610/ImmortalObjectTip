@@ -19,7 +19,7 @@ apply plugin: 'forge'
 
 ext.env = System.getenv()
 // 取得 build number，如果找不到則設定為0
-def buildNumber = env.BUILD_NUMBER == null ? 0 : env.BUILD_NUMBER
+def build_number = env.BUILD_NUMBER == null ? 0 : env.BUILD_NUMBER
 
 def minecraft_version = "1.7.10"
 def forge_version = "10.13.4.1558-1.7.10"
