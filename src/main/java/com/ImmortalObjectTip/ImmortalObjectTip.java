@@ -23,15 +23,15 @@ public class ImmortalObjectTip {
     @SidedProxy(serverSide = "com.ImmortalObjectTip.CommonProxy", clientSide = "com.ImmortalObjectTip.ClientProxy")
     public static CommonProxy proxy;
     
-    public SimpleNetworkWrapper wrapper;
+    public SimpleNetworkWrapper network;
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHandler());
         proxy.registerEvent();
         
-        wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ModInformation.MOD_ID);
-        wrapper.registerMessage(PacketCreateTipHandler.class, PacketCreateTip.class, 1, Side.CLIENT);
+        network = NetworkRegistry.INSTANCE.newSimpleChannel(ModInformation.MOD_ID);
+        network.registerMessage(PacketCreateTipHandler.class, PacketCreateTip.class, 1, Side.CLIENT);
     }
     
 }

@@ -13,7 +13,7 @@ public class PlayerInteractEventHandler {
     public void PlayerInteract(PlayerInteractEvent event) {
         if (event.action == Action.LEFT_CLICK_BLOCK && event.world.getBlock(event.x, event.y, event.z) == Blocks.bedrock && !event.entityPlayer.capabilities.isCreativeMode) {
             PacketCreateTip packet = new PacketCreateTip(event);
-            ImmortalObjectTip.instance.wrapper.sendToDimension(packet, packet.dim);
+            ImmortalObjectTip.instance.network.sendToDimension(packet, packet.dim);
             //DebugMessage(event);
         }
     }
