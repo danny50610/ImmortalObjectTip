@@ -32,6 +32,10 @@ archivesBaseName = "ImmortalObjectTip"
 minecraft {
     version = minecraft_version + "-" + forge_version
     runDir = "run"
+
+    replaceIn "lib/ModInformation.java"
+    replace "@VERSION@", mod_version + "." + buildNumber
+    replace "#DEPENDENCIES#", forge_version
 }
 
 processResources
