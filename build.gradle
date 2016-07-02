@@ -17,24 +17,20 @@ buildscript {
 
 apply plugin: 'forge'
 
-ext.configFile = file "build.properties"
+ext.env = System.getenv()
+// 取得 build number，如果找不到則設定為0
+def buildNumber = env.BUILD_NUMBER == null ? 0 : env.BUILD_NUMBER
 
-configFile.withReader {
-    def prop = new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
-	
-	prop['build_number'] = String.valueOf(Integer.parseInt(config.build_number) + 1)
-	prop.store(configFile.newWriter(), null)
-}
+def minecraft_version = "1.7.10"
+def forge_version = "10.13.4.1558-1.7.10"
+def mod_version = "0.1"
 
-
-version = "${config.minecraft_version}-${config.mod_version}.${config.build_number}"
+version = minecraft_version + "-" + mod_version + "." + build_number
 group= "com.ImmortalObjectTip" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ImmortalObjectTip"
 
 minecraft {
-    version = config.minecraft_version + "-" + config.forge_version
+    version = minecraft_version + "-" + forge_version
     runDir = "run"
 }
 
