@@ -28,6 +28,7 @@ public class ImmortalObjectTip {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHandler());
+        MinecraftForge.EVENT_BUS.register(new LivingAttackEventHandler());
         proxy.registerEvent();
         
         network = NetworkRegistry.INSTANCE.newSimpleChannel(ModInformation.MOD_ID);
