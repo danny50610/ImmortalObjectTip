@@ -201,7 +201,7 @@ public class RenderTipHandler {
         for (Iterator<TipInfoEntity> it = tipPlayerList.iterator(); it.hasNext(); ) {
             TipInfoEntity tip = it.next();
             double x = tip.entity.posX;
-            double y = tip.entity.posY + 3;
+            double y = tip.entity.posY + tip.entity.height + 1;
             double z = tip.entity.posZ;
 
             tip.update(event.partialTicks);
