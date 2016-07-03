@@ -1,7 +1,9 @@
-package com.ImmortalObjectTip;
+package com.ImmortalObjectTip.handler;
 
-import com.ImmortalObjectTip.network.PacketCreateTip;
+import com.ImmortalObjectTip.ImmortalObjectTip;
+import com.ImmortalObjectTip.TipInfoBase;
 
+import com.ImmortalObjectTip.network.PacketCreateTipBlock;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -14,8 +16,18 @@ public class PlayerInteractEventHandler {
         if (event.action == Action.LEFT_CLICK_BLOCK && event.world.getBlock(event.x, event.y, event.z) == Blocks.bedrock && !event.entityPlayer.capabilities.isCreativeMode) {
             int dimId = event.world.provider.dimensionId;
 
-            PacketCreateTip packet = new PacketCreateTip(event.x, event.y, event.z, event.face, dimId);
+            PacketCreateTipBlock packet = null;
+            if (event.face == 2 || event.face == 3 || event.face == 4 || event.face == 5) {
+                packet = new PacketCreateTipBlock(dimId, event.x, event.y, event.z, event.face);
+            }
+            else if (event.face == 0) {
+                packet = new PacketCreateTipBlock(dimId, TipInfoBase.Type.BlockBottom, event.x, event.y, event.z);
+            }
+            else if (event.face == 1) {
+                packet = new PacketCreateTipBlock(dimId, TipInfoBase.Type.BlockTop, event.x, event.y + 1, event.z);
+            }
             ImmortalObjectTip.instance.network.sendToDimension(packet, dimId);
+
             //DebugMessage(event);
         }
     }

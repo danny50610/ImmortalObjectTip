@@ -1,10 +1,11 @@
 package com.ImmortalObjectTip;
 
-import net.minecraftforge.common.MinecraftForge;
-
-import com.ImmortalObjectTip.network.PacketCreateTip;
-import com.ImmortalObjectTip.network.PacketCreateTipHandler;
-
+import com.ImmortalObjectTip.handler.LivingAttackEventHandler;
+import com.ImmortalObjectTip.handler.PlayerInteractEventHandler;
+import com.ImmortalObjectTip.network.PacketCreateTipBlock;
+import com.ImmortalObjectTip.network.PacketCreateTipBlockHandler;
+import com.ImmortalObjectTip.network.PacketCreateTipEntity;
+import com.ImmortalObjectTip.network.PacketCreateTipEntityHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -13,6 +14,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = ModInformation.MOD_ID, name = ModInformation.MOD_NAME, dependencies = ModInformation.DEPENDENCIES)
 public class ImmortalObjectTip {
@@ -32,7 +34,8 @@ public class ImmortalObjectTip {
         proxy.registerEvent();
         
         network = NetworkRegistry.INSTANCE.newSimpleChannel(ModInformation.MOD_ID);
-        network.registerMessage(PacketCreateTipHandler.class, PacketCreateTip.class, 1, Side.CLIENT);
+        network.registerMessage(PacketCreateTipBlockHandler.class, PacketCreateTipBlock.class, 1, Side.CLIENT);
+        network.registerMessage(PacketCreateTipEntityHandler.class, PacketCreateTipEntity.class, 2, Side.CLIENT);
     }
     
 }

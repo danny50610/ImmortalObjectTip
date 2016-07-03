@@ -1,6 +1,6 @@
 package com.ImmortalObjectTip;
 
-import com.ImmortalObjectTip.clinet.RenderTipHandler;
+import com.ImmortalObjectTip.handler.clinet.RenderTipHandler;
 
 import net.minecraftforge.common.MinecraftForge;
 
