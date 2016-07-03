@@ -34,7 +34,7 @@ minecraft {
     runDir = "run"
 
     replaceIn "lib/ModInformation.java"
-    replace "@VERSION@", mod_version + "." + buildNumber
+    replace "@VERSION@", mod_version + "." + build_number
     replace "#DEPENDENCIES#", forge_version
 }
 
