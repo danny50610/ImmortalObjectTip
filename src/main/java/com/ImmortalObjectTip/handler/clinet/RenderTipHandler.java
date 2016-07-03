@@ -213,6 +213,8 @@ public class RenderTipHandler {
             if (tip.dim != player.dimension) continue;
             if ((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) > 25.0d)
                 continue;
+            if (tip.entity.equals(player))
+                continue;
 
             GL11.glPushMatrix();
 
