@@ -103,7 +103,7 @@ public class RenderTipHandler {
             }
 
             if (tip.dim != player.dimension) continue;
-            if ((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) > 25.0d)
+            if (!canRender(x, y, z))
                 continue;
 
             double Reduce_Height = getHalfHeight(tip.getHeightRatio());
@@ -211,7 +211,7 @@ public class RenderTipHandler {
             }
 
             if (tip.dim != player.dimension) continue;
-            if ((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) > 25.0d)
+            if (!canRender(x, y, z))
                 continue;
             if (tip.entity.equals(player))
                 continue;
@@ -299,6 +299,10 @@ public class RenderTipHandler {
 
     private static void playTipSound(double x, double y, double z) {
         mc.theWorld.playSound(x + 0.5d, y + 0.5d, z + 0.5d, "note.harp", 3.0f, 1.414f, false);
+    }
+
+    private boolean canRender(double x, double y, double z) {
+        return (playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) <= 5 * 5;
     }
 
     /**
