@@ -10,8 +10,8 @@ public class LivingAttackEventHandler {
 
     @SubscribeEvent
     public void livingAttack(LivingAttackEvent event) {
-        if (!(event.entityLiving instanceof EntityPlayer)) return;
-        EntityPlayer player = (EntityPlayer) event.entityLiving;
+        if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
+        EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 
         if (!player.capabilities.isCreativeMode) return;
 

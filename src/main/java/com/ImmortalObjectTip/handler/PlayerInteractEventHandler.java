@@ -4,6 +4,7 @@ import com.ImmortalObjectTip.ImmortalObjectTip;
 import com.ImmortalObjectTip.TipInfoBase;
 
 import com.ImmortalObjectTip.network.PacketCreateTipBlock;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -13,17 +14,18 @@ public class PlayerInteractEventHandler {
 
     @SubscribeEvent
     public void PlayerInteract(PlayerInteractEvent event) {
-        if (event.action == Action.LEFT_CLICK_BLOCK && event.world.getBlock(event.x, event.y, event.z) == Blocks.bedrock && !event.entityPlayer.capabilities.isCreativeMode) {
+        if (event.action == Action.LEFT_CLICK_BLOCK && event.getWorld().getBlock(event.x, event.y, event.z) == Blocks.bedrock && !event.getEntityPlayer().capabilities.isCreativeMode) {
             int dimId = event.world.provider.dimensionId;
 
             PacketCreateTipBlock packet = null;
-            if (event.face == 2 || event.face == 3 || event.face == 4 || event.face == 5) {
+            EnumFacing face = event.getFace();
+            if (face == EnumFacing.NORTH || face == EnumFacing.SOUTH || face == EnumFacing.EAST || face == EnumFacing.WEST) {
                 packet = new PacketCreateTipBlock(dimId, event.x, event.y, event.z, event.face);
             }
-            else if (event.face == 0) {
+            else if (face == EnumFacing.DOWN) {
                 packet = new PacketCreateTipBlock(dimId, TipInfoBase.Type.BlockBottom, event.x, event.y, event.z);
             }
-            else if (event.face == 1) {
+            else if (face == EnumFacing.UP) {
                 packet = new PacketCreateTipBlock(dimId, TipInfoBase.Type.BlockTop, event.x, event.y + 1, event.z);
             }
             ImmortalObjectTip.instance.network.sendToDimension(packet, dimId);
@@ -34,13 +36,11 @@ public class PlayerInteractEventHandler {
     
     @SuppressWarnings("unused")
     private void DebugMessage(PlayerInteractEvent event) {
-        System.out.println(String.format("side = %s, player = %s, x = %d, y = %d, z = %d, face = %d, action = %s",
-                event.world.isRemote ? "Client" : "Server",
-                event.entityPlayer.getDisplayName(),
-                event.x,
-                event.y,
-                event.z,
-                event.face,
+        System.out.println(String.format("side = %s, player = %s, pos = %s, face = %s, action = %s",
+                event.getWorld().isRemote ? "Client" : "Server",
+                event.getEntityPlayer().getDisplayName(),
+                event.getPos().toString(),
+                event.getFace(),
                 event.action)
         );
     }
