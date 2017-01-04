@@ -2,9 +2,9 @@ package com.ImmortalObjectTip.network;
 
 import com.ImmortalObjectTip.TipInfoEntity;
 import com.ImmortalObjectTip.handler.clinet.RenderTipHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketCreateTipEntityHandler implements IMessageHandler<PacketCreateTipEntity, IMessage> {
 

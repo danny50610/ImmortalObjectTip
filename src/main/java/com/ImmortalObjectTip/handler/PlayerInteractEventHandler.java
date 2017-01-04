@@ -4,7 +4,7 @@ import com.ImmortalObjectTip.ImmortalObjectTip;
 import com.ImmortalObjectTip.TipInfoBase;
 
 import com.ImmortalObjectTip.network.PacketCreateTipBlock;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;

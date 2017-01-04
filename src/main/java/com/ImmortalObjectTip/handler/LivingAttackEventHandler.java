@@ -2,7 +2,7 @@ package com.ImmortalObjectTip.handler;
 
 import com.ImmortalObjectTip.ImmortalObjectTip;
 import com.ImmortalObjectTip.network.PacketCreateTipEntity;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 

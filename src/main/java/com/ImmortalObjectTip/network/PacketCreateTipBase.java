@@ -1,7 +1,7 @@
 package com.ImmortalObjectTip.network;
 
 import com.ImmortalObjectTip.TipInfoBase;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 
 public class PacketCreateTipBase implements IMessage {
