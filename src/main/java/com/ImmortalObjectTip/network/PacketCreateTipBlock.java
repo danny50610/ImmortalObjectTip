@@ -2,31 +2,27 @@ package com.ImmortalObjectTip.network;
 
 import com.ImmortalObjectTip.TipInfoBase;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 
 public class PacketCreateTipBlock extends PacketCreateTipBase {
 
-    public float x;
-    public float y;
-    public float z;
-    public int face = -1;
+    public BlockPos pos;
+    public EnumFacing face;
 
     public PacketCreateTipBlock() {
     }
 
-    public PacketCreateTipBlock(int dim, TipInfoBase.Type type, float x, float y, float z) {
+    public PacketCreateTipBlock(int dim, TipInfoBase.Type type, BlockPos pos) {
         super(dim, type);
 
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.pos = pos;
     }
 
-    public PacketCreateTipBlock(int dim, float x, float y, float z, int face) {
+    public PacketCreateTipBlock(int dim, BlockPos pos, EnumFacing face) {
         super(dim, TipInfoBase.Type.BlockSide);
 
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.pos = pos;
         this.face = face;
     }
 
@@ -34,11 +30,9 @@ public class PacketCreateTipBlock extends PacketCreateTipBase {
     public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
 
-        x = buf.readFloat();
-        y = buf.readFloat();
-        z = buf.readFloat();
+        this.pos = new BlockPos(buf.readFloat(), buf.readFloat(), buf.readFloat());
         if (type == TipInfoBase.Type.BlockSide) {
-            face = buf.readByte();
+            face = EnumFacing.getFront(buf.readByte());
         }
     }
 
@@ -46,11 +40,11 @@ public class PacketCreateTipBlock extends PacketCreateTipBase {
     public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
 
-        buf.writeFloat(x);
-        buf.writeFloat(y);
-        buf.writeFloat(z);
+        buf.writeFloat(this.pos.getX());
+        buf.writeFloat(this.pos.getY());
+        buf.writeFloat(this.pos.getZ());
         if (type == TipInfoBase.Type.BlockSide) {
-            buf.writeByte(face);
+            buf.writeByte(face.getIndex());
         }
     }
 }

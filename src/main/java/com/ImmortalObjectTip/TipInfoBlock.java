@@ -1,22 +1,19 @@
 package com.ImmortalObjectTip;
 
 import com.ImmortalObjectTip.network.PacketCreateTipBlock;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 
 public class TipInfoBlock extends TipInfoBase {
 
-    public final float x;
-    public final float y;
-    public final float z;
+    public BlockPos pos;
 
-    // for BlockSide
-    public final int face;
+    public EnumFacing face;
 
     public TipInfoBlock(PacketCreateTipBlock message) {
         super(message);
 
-        this.x = message.x;
-        this.y = message.y;
-        this.z = message.z;
+        this.pos = message.pos;
 
         this.face = message.face;
     }
@@ -29,19 +26,15 @@ public class TipInfoBlock extends TipInfoBase {
 
         TipInfoBlock that = (TipInfoBlock) o;
 
-        if (Float.compare(that.x, x) != 0) return false;
-        if (Float.compare(that.y, y) != 0) return false;
-        if (Float.compare(that.z, z) != 0) return false;
+        if (!this.pos.equals(that.pos)) return false;
         return face == that.face;
 
     }
 
     @Override
     public int hashCode() {
-        int result = (x != +0.0f ? Float.floatToIntBits(x) : 0);
-        result = 31 * result + (y != +0.0f ? Float.floatToIntBits(y) : 0);
-        result = 31 * result + (z != +0.0f ? Float.floatToIntBits(z) : 0);
-        result = 31 * result + face;
+        int result = pos != null ? pos.hashCode() : 0;
+        result = 31 * result + (face != null ? face.hashCode() : 0);
         return result;
     }
 }
