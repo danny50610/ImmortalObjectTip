@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -99,8 +100,8 @@ public class RenderTipHandler {
     // Knowledge: http://www.minecraftforge.net/forum/index.php?topic=41475.0
     private void renderTipBlock(EntityPlayer player, RenderWorldLastEvent event) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexBuffer = Tessellator.getInstance().getBuffer();
-        // vertexBuffer.setTranslation(1.0F, 1.0F, 1.0F);
+        VertexBuffer vertexBuffer = tessellator.getBuffer();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         for (Iterator<TipInfoBlock> it = tipBlockList.iterator(); it.hasNext(); ) {
             TipInfoBlock tip = it.next();
@@ -209,7 +210,7 @@ public class RenderTipHandler {
     private void renderTipEntity(EntityPlayer player, RenderWorldLastEvent event) {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer vertexBuffer = Tessellator.getInstance().getBuffer();
-//        vertexBuffer.putColorRGBA(1,1,1)
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         for (Iterator<TipInfoEntity> it = tipPlayerList.iterator(); it.hasNext(); ) {
             TipInfoEntity tip = it.next();
