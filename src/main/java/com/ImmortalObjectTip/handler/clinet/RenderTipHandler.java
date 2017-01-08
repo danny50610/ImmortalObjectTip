@@ -5,7 +5,7 @@ import com.ImmortalObjectTip.TipInfoBase;
 import com.ImmortalObjectTip.TipInfoBlock;
 import com.ImmortalObjectTip.TipInfoEntity;
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,9 +17,10 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -101,7 +102,6 @@ public class RenderTipHandler {
     private void renderTipBlock(EntityPlayer player, RenderWorldLastEvent event) {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer vertexBuffer = tessellator.getBuffer();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         for (Iterator<TipInfoBlock> it = tipBlockList.iterator(); it.hasNext(); ) {
             TipInfoBlock tip = it.next();
@@ -124,7 +124,7 @@ public class RenderTipHandler {
             if (tip.type == TipInfoBase.Type.BlockTop) {
                 GL11.glPushMatrix();
 
-                vertexBuffer.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+                vertexBuffer.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX); //POSITION_TEX_COLOR
 
                 double halfHeight = getHalfHeight(tip.getHeightRatio());
 
@@ -136,7 +136,7 @@ public class RenderTipHandler {
                 updateBillboardPitchMatrix(x, y, z);
                 GL11.glMultMatrix(billboardPitchMatrix);
 
-//                setColorOpaque((int) tip.x, (int) tip.y, (int) tip.z, ForgeDirection.UP, getAlpha(tip));
+                setColorOpaque(tip.pos, EnumFacing.UP, getAlpha(tip));
                 vertexBuffer.pos(-0.5d, +halfHeight, 0.0d).tex(0.0d, 0.0d).endVertex();
                 vertexBuffer.pos(-0.5d, -halfHeight, 0.0d).tex(0.0d, 1.0d).endVertex();
                 vertexBuffer.pos(+0.5d, -halfHeight, 0.0d).tex(1.0d, 1.0d).endVertex();
@@ -150,28 +150,28 @@ public class RenderTipHandler {
             else if (tip.type == TipInfoBase.Type.BlockSide) {
                 vertexBuffer.begin(GL_QUADS, DefaultVertexFormats.POSITION_TEX);
                 if (tip.face == EnumFacing.NORTH) {
-//                    setColorOpaque((int) tip.x, (int) tip.y, (int) tip.z, ForgeDirection.NORTH, getAlpha(tip));
+                    setColorOpaque(tip.pos, EnumFacing.NORTH, getAlpha(tip));
                     vertexBuffer.pos(x + 0.5d, y + Reduce_Height, z - 0.51d).tex(0.0f, 0.0f).endVertex();
                     vertexBuffer.pos(x + 0.5d, y - Reduce_Height, z - 0.51d).tex(0.0f, 1.0f).endVertex();
                     vertexBuffer.pos(x - 0.5d, y - Reduce_Height, z - 0.51d).tex(1.0f, 1.0f).endVertex();
                     vertexBuffer.pos(x - 0.5d, y + Reduce_Height, z - 0.51d).tex(1.0f, 0.0f).endVertex();
                 }
                 else if (tip.face == EnumFacing.SOUTH) {
-//                    setColorOpaque((int) tip.x, (int) tip.y, (int) tip.z, ForgeDirection.SOUTH, getAlpha(tip));
+                    setColorOpaque(tip.pos, EnumFacing.SOUTH, getAlpha(tip));
                     vertexBuffer.pos(x - 0.5d, y + Reduce_Height, z + 0.51d).tex(0.0f, 0.0f).endVertex();
                     vertexBuffer.pos(x - 0.5d, y - Reduce_Height, z + 0.51d).tex(0.0f, 1.0f).endVertex();
                     vertexBuffer.pos(x + 0.5d, y - Reduce_Height, z + 0.51d).tex(1.0f, 1.0f).endVertex();
                     vertexBuffer.pos(x + 0.5d, y + Reduce_Height, z + 0.51d).tex(1.0f, 0.0f).endVertex();
                 }
                 else if (tip.face == EnumFacing.WEST) {
-//                    setColorOpaque((int) tip.x, (int) tip.y, (int) tip.z, ForgeDirection.WEST, getAlpha(tip));
+                    setColorOpaque(tip.pos, EnumFacing.WEST, getAlpha(tip));
                     vertexBuffer.pos(x - 0.51d, y + Reduce_Height, z - 0.5d).tex(0.0f, 0.0f).endVertex();
                     vertexBuffer.pos(x - 0.51d, y - Reduce_Height, z - 0.5d).tex(0.0f, 1.0f).endVertex();
                     vertexBuffer.pos(x - 0.51d, y - Reduce_Height, z + 0.5d).tex(1.0f, 1.0f).endVertex();
                     vertexBuffer.pos(x - 0.51d, y + Reduce_Height, z + 0.5d).tex(1.0f, 0.0f).endVertex();
                 }
                 else if (tip.face == EnumFacing.EAST) {
-//                    setColorOpaque((int) tip.x, (int) tip.y, (int) tip.z, ForgeDirection.EAST, getAlpha(tip));
+                    setColorOpaque(tip.pos, EnumFacing.EAST, getAlpha(tip));
                     vertexBuffer.pos(x + 0.51d, y + Reduce_Height, z + 0.5d).tex(0.0f, 0.0f).endVertex();
                     vertexBuffer.pos(x + 0.51d, y - Reduce_Height, z + 0.5d).tex(0.0f, 1.0f).endVertex();
                     vertexBuffer.pos(x + 0.51d, y - Reduce_Height, z - 0.5d).tex(1.0f, 1.0f).endVertex();
@@ -193,7 +193,7 @@ public class RenderTipHandler {
                 updateBillboardYawMatrix(x, y, z);
                 GL11.glMultMatrix(billboardYawMatrix);
 
-//                setColorOpaque((int) tip.x, (int) tip.y, (int) tip.z, ForgeDirection.DOWN, getAlpha(tip));
+                setColorOpaque(tip.pos, EnumFacing.DOWN, getAlpha(tip));
                 vertexBuffer.pos(-0.5d, -0.51d, +halfHeight).tex(0.0d, 0.0d).endVertex();
                 vertexBuffer.pos(-0.5d, -0.51d, -halfHeight).tex(0.0d, 1.0d).endVertex();
                 vertexBuffer.pos(+0.5d, -0.51d, -halfHeight).tex(1.0d, 1.0d).endVertex();
@@ -210,7 +210,6 @@ public class RenderTipHandler {
     private void renderTipEntity(EntityPlayer player, RenderWorldLastEvent event) {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer vertexBuffer = Tessellator.getInstance().getBuffer();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         for (Iterator<TipInfoEntity> it = tipPlayerList.iterator(); it.hasNext(); ) {
             TipInfoEntity tip = it.next();
@@ -244,7 +243,7 @@ public class RenderTipHandler {
             updateBillboardPitchMatrix(x, y, z);
             GL11.glMultMatrix(billboardPitchMatrix);
 
-//            setColorOpaque((int) x, (int) y, (int) z, ForgeDirection.UP, getAlpha(tip));
+            setColorOpaque(new BlockPos(x, y, z), EnumFacing.UP, getAlpha(tip));
             vertexBuffer.pos(-0.5d, +halfHeight, 0.0d).tex(0.0d, 0.0d).endVertex();
             vertexBuffer.pos(-0.5d, -halfHeight, 0.0d).tex(0.0d, 1.0d).endVertex();
             vertexBuffer.pos(+0.5d, -halfHeight, 0.0d).tex(1.0d, 1.0d).endVertex();
@@ -319,19 +318,19 @@ public class RenderTipHandler {
         return (playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) <= 5 * 5;
     }
 
-//    /**
-//     * 調整明暗
-//     * (雖然名稱像是調顏色，但執行卻像是調明暗)
-//     * FIXME: 突然不管用了
-//     */
-//    private void setColorOpaque(int x, int y, int z, ForgeDirection dir, int alpha) {
-//        IBlockAccess blockAccess = mc.thePlayer.worldObj;
-//        Block block = blockAccess.getBlock(x, y, z);
-//        int light = block.getMixedBrightnessForBlock(blockAccess, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-//        int l1 = light >> 20;
-//        int l2 = (light >> 4) & 0xF;
-//        int l3 = (l1 > l2 ? l1 : l2) * 17;
-//        Tessellator.instance.setColorRGBA(l3, l3, l3, alpha);
-//    }
+    /**
+     * 調整明暗
+     * (雖然名稱像是調顏色，但執行卻像是調明暗)
+     * FIXME: skylight 太高
+     */
+    private void setColorOpaque(BlockPos pos, EnumFacing face, int alpha) {
+        World world = mc.thePlayer.worldObj;
+        IBlockState state = world.getBlockState(pos);
+        int light = state.getPackedLightmapCoords(world, pos.add(face.getDirectionVec()));
+        int l1 = light >> 20;
+        int l2 = (light >> 4) & 0xF;
+        int l3 = (l1 > l2 ? l1 : l2) * 17;
+        GlStateManager.color(l3 / 255.0F, l3 / 255.0F, l3 / 255.0F, alpha / 255.0F);
+    }
 
 }
