@@ -17,3 +17,7 @@ Changelog
 0.1.4
 
 Tip become translucent.
+
+Font
+-----------------
+SAO UI Regular：http://darkblackswords.deviantart.com/art/Sword-Art-Online-Font-342305125
