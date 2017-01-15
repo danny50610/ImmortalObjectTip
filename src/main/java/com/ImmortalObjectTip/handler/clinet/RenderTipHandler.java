@@ -113,6 +113,7 @@ public class RenderTipHandler {
             if (tip.isDisappear()) {
                 it.remove();
                 playTipSound(x, y, z);
+                continue;
             }
 
             if (tip.dim != player.dimension) continue;
@@ -221,6 +222,7 @@ public class RenderTipHandler {
             if (tip.isDisappear()) {
                 it.remove();
                 playTipSound(x, y, z);
+                continue;
             }
 
             if (tip.dim != player.dimension) continue;
@@ -315,7 +317,7 @@ public class RenderTipHandler {
     }
 
     private boolean canRender(double x, double y, double z) {
-        return (playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) <= 5 * 5;
+        return (playerX - x) * (playerX - x) + (playerY - y) * (playerY - y) + (playerZ - z) * (playerZ - z) <= 32 * 32;
     }
 
     /**

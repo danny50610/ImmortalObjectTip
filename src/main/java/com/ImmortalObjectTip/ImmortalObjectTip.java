@@ -1,5 +1,6 @@
 package com.ImmortalObjectTip;
 
+import com.ImmortalObjectTip.handler.ExplosionEventHandler;
 import com.ImmortalObjectTip.handler.LivingAttackEventHandler;
 import com.ImmortalObjectTip.handler.PlayerInteractEventHandler;
 import com.ImmortalObjectTip.network.PacketCreateTipBlock;
@@ -31,6 +32,7 @@ public class ImmortalObjectTip {
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHandler());
         MinecraftForge.EVENT_BUS.register(new LivingAttackEventHandler());
+        MinecraftForge.EVENT_BUS.register(new ExplosionEventHandler());
         proxy.registerEvent();
         
         network = NetworkRegistry.INSTANCE.newSimpleChannel(ModInformation.MOD_ID);
