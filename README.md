@@ -14,8 +14,10 @@ Download
 Changelog
 -----------------
 
-0.1.4
+0.1.9  
+Show tip When player attacked in creative mode.
 
+0.1.4  
 Tip become translucent.
 
 Font
