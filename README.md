@@ -1,6 +1,7 @@
 Immortal Object Tip
 =================
 This is Minecraft Mod. It can show "Immortal Object" Tip.
+Just like Sword Art Online.
 
 -----------------
 When player left click on bedrock...
