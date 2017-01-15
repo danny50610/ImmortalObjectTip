@@ -15,7 +15,7 @@ Download
 Changelog
 -----------------
 
-0.2.15
+0.2.15  
 Upgrade to 1.10.2 (Forge 12.18.3.2185)
 
 0.1.9  
