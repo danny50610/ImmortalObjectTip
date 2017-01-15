@@ -3,6 +3,7 @@ package com.ImmortalObjectTip.handler;
 import com.ImmortalObjectTip.ImmortalObjectTip;
 import com.ImmortalObjectTip.TipInfoBase;
 import com.ImmortalObjectTip.network.PacketCreateTipBlock;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -26,10 +27,12 @@ public class ExplosionEventHandler {
             for (int dx = -detectionRadius; dx <= detectionRadius; dx++) {
                 for (int dy = -detectionRadius; dy <= detectionRadius; dy++) {
                     BlockPos pos = explosionPosition.add(dx, dy, dz);
-                    if (world.getBlockState(pos).getBlock() == Blocks.BEDROCK /*&& random.nextDouble() < 0.75d*/) {
+                    if (world.getBlockState(pos).getBlock() == Blocks.BEDROCK && random.nextDouble() < 0.2d) {
                         EnumFacing face = EnumFacing.getFacingFromVector(-dx, -dy, -dz);
 
-                        PlayerInteractEventHandler.SendPacket(pos, face, event.getWorld().provider.getDimension());
+                        if (world.getBlockState(pos.add(face.getDirectionVec())).getMaterial() == Material.AIR) {
+                            PlayerInteractEventHandler.SendPacket(pos, face, event.getWorld().provider.getDimension());
+                        }
                     }
                 }
             }
