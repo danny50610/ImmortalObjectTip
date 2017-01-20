@@ -8,6 +8,10 @@ When player left click on bedrock...
 
 ![alt tag](http://i.imgur.com/KijpOxMh.png)
 
+![Imgur](http://i.imgur.com/5o5xWkAh.gif)
+
+![Imgur](http://i.imgur.com/12ul8R8h.gif)
+
 Download
 -----------------
 [Curseforge](http://minecraft.curseforge.com/projects/immortalobjecttip)
