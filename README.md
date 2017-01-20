@@ -6,11 +6,11 @@ Just like Sword Art Online.
 -----------------
 When player left click on bedrock...
 
-![alt tag](http://i.imgur.com/KijpOxMh.png)
+![](http://i.imgur.com/KijpOxMh.png)
 
-![Imgur](http://i.imgur.com/5o5xWkAh.gif)
+![](https://github.com/danny50610/ImmortalObjectTip/blob/master/screenshots/hit_bedrock.gif?raw=true)
 
-![Imgur](https://github.com/danny50610/ImmortalObjectTip/blob/master/screenshots/explosion_on_berock.gif?raw=true)
+![](https://github.com/danny50610/ImmortalObjectTip/blob/master/screenshots/explosion_on_berock.gif?raw=true)
 
 Download
 -----------------
