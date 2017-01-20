@@ -10,7 +10,7 @@ When player left click on bedrock...
 
 ![Imgur](http://i.imgur.com/5o5xWkAh.gif)
 
-![Imgur](http://i.imgur.com/12ul8R8h.gif)
+![Imgur](https://github.com/danny50610/ImmortalObjectTip/blob/master/screenshots/explosion_on_berock.gif?raw=true)
 
 Download
 -----------------
