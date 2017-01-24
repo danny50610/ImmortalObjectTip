@@ -12,7 +12,7 @@ public class TipInfoEntity extends TipInfoBase {
         super(message);
 
         Minecraft mc = Minecraft.getMinecraft();
-        this.entity = mc.theWorld.getEntityByID(message.entityId);
+        this.entity = mc.world.getEntityByID(message.entityId);
     }
 
     @Override

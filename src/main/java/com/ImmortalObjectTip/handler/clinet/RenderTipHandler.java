@@ -82,7 +82,7 @@ public class RenderTipHandler {
     public void renderAllTip(RenderWorldLastEvent event) {
         mc.renderEngine.bindTexture(TipTexture);
 
-        EntityPlayerSP player = mc.thePlayer;
+        EntityPlayerSP player = mc.player;
         playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.getPartialTicks();
         playerY = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.getPartialTicks();
         playerZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks();
@@ -313,7 +313,7 @@ public class RenderTipHandler {
     }
 
     private static void playTipSound(double x, double y, double z) {
-        mc.theWorld.playSound(x + 0.5d, y + 0.5d, z + 0.5d, SoundEvents.BLOCK_NOTE_HARP, SoundCategory.BLOCKS, 3.0f, 1.414f, false);
+        mc.world.playSound(x + 0.5d, y + 0.5d, z + 0.5d, SoundEvents.BLOCK_NOTE_HARP, SoundCategory.BLOCKS, 3.0f, 1.414f, false);
     }
 
     private boolean canRender(double x, double y, double z) {
@@ -326,7 +326,7 @@ public class RenderTipHandler {
      * FIXME: skylight 太高
      */
     private void setColorOpaque(BlockPos pos, EnumFacing face, int alpha) {
-        World world = mc.thePlayer.worldObj;
+        World world = mc.player.world;
         IBlockState state = world.getBlockState(pos);
         int light = state.getPackedLightmapCoords(world, pos.add(face.getDirectionVec()));
         int l1 = light >> 20;
