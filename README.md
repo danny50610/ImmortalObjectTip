@@ -10,6 +10,10 @@ When player left click on bedrock...
 
 ![](https://github.com/danny50610/ImmortalObjectTip/blob/master/screenshots/hit_bedrock.gif?raw=true)
 
+![](https://github.com/danny50610/ImmortalObjectTip/blob/master/screenshots/attack_creative_mode_player.gif?raw=true)
+
+![](https://github.com/danny50610/ImmortalObjectTip/blob/master/screenshots/attack_creative_mode_player_by_arrow.gif?raw=true)
+
 ![](https://github.com/danny50610/ImmortalObjectTip/blob/master/screenshots/explosion_on_berock.gif?raw=true)
 
 Download
