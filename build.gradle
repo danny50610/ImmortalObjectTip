@@ -14,7 +14,7 @@ ext.env = System.getenv()
 def build_number = env.BUILD_NUMBER == null ? 0 : env.BUILD_NUMBER
 
 def minecraft_version = "1.11.2"
-def forge_version = "13.20.0.2224"
+def forge_version = "13.20.0.2228"
 def mod_version = "0.3"
 
 version = minecraft_version + "-" + mod_version + "." + build_number
