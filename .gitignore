@@ -46,7 +46,8 @@ fabric.properties
 
 # Forge Project
 run/
-run_server/
+run2/
+run-server/
 classes/
 .gradle/
 build/
