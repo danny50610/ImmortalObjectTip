@@ -23,6 +23,8 @@ jobs:
           ${{ runner.os }}-gradle-
     
     - name: Build with Gradle
+      env:
+        BUILD_NUMBER: $(git rev-list HEAD --count) 
       run: ./gradlew build
       
     - uses: actions/upload-artifact@v1
