@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../..">
       <excludeFolder url="file://$MODULE_DIR$/../../.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../out" />
       <excludeFolder url="file://$MODULE_DIR$/../../run" />
       <excludeFolder url="file://$MODULE_DIR$/../../run-server" />
       <excludeFolder url="file://$MODULE_DIR$/../../run2" />
