@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_api.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_api.iml" group="ImmortalObjectTip" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_main.iml" group="ImmortalObjectTip" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip_test.iml" group="ImmortalObjectTip" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.api.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ImmortalObjectTip.test.iml" />
     </modules>
   </component>
 </project>
