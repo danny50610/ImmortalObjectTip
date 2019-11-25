@@ -34,7 +34,7 @@ minecraft {
     mappings = "snapshot_20171003"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
-    replaceIn "lib/ModInformation.java"
+    replaceIn "ModInformation.java"
     replace "@VERSION@", mod_version + "." + build_number
     replace "#DEPENDENCIES#", forge_version
 }
