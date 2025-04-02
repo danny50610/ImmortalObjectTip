@@ -18,7 +18,7 @@ When player left click on bedrock...
 
 Download
 -----------------
-[Curseforge](http://minecraft.curseforge.com/projects/immortalobjecttip)
+[Curseforge](https://www.curseforge.com/minecraft/mc-mods/immortalobjecttip)
 
 Changelog
 -----------------
