@@ -27,7 +27,7 @@ jobs:
         export BUILD_NUMBER=$(git rev-list HEAD --count)
         ./gradlew build
       
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       with:
         name: artifact
         path: build/libs
